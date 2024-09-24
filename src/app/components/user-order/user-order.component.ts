@@ -35,12 +35,9 @@ export class UserOrderComponent  implements OnInit{
   
   
   ///to get user order by id
-      const storedId = localStorage.getItem('cartId');
-      if (storedId) {
-        this.id3 = storedId;
-        console.log('Component 2 - ID retrieved from localStorage:', this.id3);
-        this.id3='6407cf6f515bdcf347c09f17';
-      }
+    //  const storedId = localStorage.getItem('cartId');
+     
+      this.id3='6407cf6f515bdcf347c09f17';
       this._OrdersService.getUserOrders(this.id3).subscribe({
         next: (res) => 
         {console.log(res);
