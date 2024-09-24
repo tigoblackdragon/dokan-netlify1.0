@@ -75,6 +75,7 @@ this._OrdersService.checkOut(this.idCart, this.orders.value).subscribe({
       
       setTimeout(() => {
         this.isLoading=false;
+        console.log(res);
         res.session.url;
         window.open(res.session.url,'_self')
       }, 5000);
