@@ -1,0 +1,19 @@
+.fa-heart {
+    color: var(--light-color);
+}
+.fa-heart:hover {
+    color: var(--main-clr);
+}
+
+.partial-30{
+    background: linear-gradient(to left, white var(--my-width), transparent var(--my-width));
+    width: 1.1em; 
+    height: 1.1em;
+    top: 4px;
+    
+}  
+.rounded-circle{
+    background-color: white;
+    border: 0;
+    color: var(--light-color);
+}

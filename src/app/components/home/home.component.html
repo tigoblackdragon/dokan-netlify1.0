@@ -1,0 +1,104 @@
+<section class="container-fluid margin-top mb-5 margin-top-130">
+  <h2 class="text-main mb-3">Our latest Products</h2>
+  <div class="row g-0">
+    <div class="col-md-10">
+      <owl-carousel-o [options]="staticSlider">
+        <ng-template carouselSlide
+          ><img
+            src="./assets/img/slider-image-1.jpeg"
+            height="500px"
+            alt=""
+        /></ng-template>
+        <ng-template carouselSlide
+          ><img
+            src="./assets/img/slider-image-2.jpeg"
+            height="500px"
+            alt=""
+        /></ng-template>
+        <ng-template carouselSlide
+          ><img
+            src="./assets/img/slider-image-3.jpeg"
+            height="500px"
+            alt=""
+        /></ng-template>
+      </owl-carousel-o>
+    </div>
+    <div class="col-md-2">
+      <img
+        src="./assets/img/blog-img-1.jpeg"
+        height="250px"
+        width="100%"
+        alt=""
+      />
+      <img
+        src="./assets/img/slider-2.jpeg"
+        height="250px"
+        width="100%"
+        alt=""
+      />
+    </div>
+  </div>
+</section>
+<section class="dynamic-carsoul container-fluid mt-5 mb-5">
+  <h2 class="text-main mb-3">Popular Categories</h2>
+  <owl-carousel-o [options]="sliderCategories">
+    <ng-container *ngFor="let slide of categoriesList">
+      <ng-template carouselSlide [id]="slide._id">
+        <img
+          [src]="slide.image"
+          [alt]="slide.name"
+          height="300px"
+          [title]="slide.name"
+        />
+        <h3 class="text-center text-main-light pt-2">{{ slide.name }}</h3>
+      </ng-template>
+    </ng-container>
+  </owl-carousel-o>
+</section>
+<section class="home container-fluid mt-5 mb-5">
+  <div class="d-flex justify-content-between"><h2 class="text-main">Popular Product</h2>
+    <input type="search" class="w-25 form-control " placeholder="Search By Name" [(ngModel)]="text"></div>
+  <div class="row g-3 mb-2 mt-2">
+    @for(product of productList.slice(0,12) | search:text; track product.id) {
+    <div class="col-lg-2 col-md-3">
+      <div class="product h-130">
+        <div class="p-2 " [routerLink]="['/details',product.id]"  >
+          <img [src]="product.imageCover" width="100%" alt="Product 1" />
+          <h3 class="pt-3">{{ product.title.split(" ", 2).join(" ") }}</h3>
+          <h4 class="h6">{{ product.category.name }}</h4>
+
+          <div class="d-flex justify-content-between">
+            <p>{{ product.price }} EGP</p>
+
+            <div class="rating-stars">
+              @for(star of generateStars(product.ratingsAverage); track $index){
+              @if(star === 'full'){
+              <i class="fas fa-star rating-color"></i>
+              <!-- } @if(star === 'empty'){
+            <i class="far fa-star "></i> -->
+              } @if(star === 'partial'){
+              <div
+                [ngStyle]="{
+                  '--my-width': getFractionFill(product.ratingsAverage) + '%'
+                }"
+                class="star-container position-relative d-inline-block"
+              >
+                <div class="partial-30 position-absolute"></div>
+                <i class="far fa-star full-star overflow-hidden"></i>
+              </div>
+              }}
+              <span class="text-muted">{{ product.ratingsAverage }}</span>
+            </div>
+          </div>
+        </div>
+        <div class="fly d-flex w-100 justify-content-center pb-2">
+          <button (click)="addToWish(product.id)" class="rounded-circle me-1">
+            <i class="fas fa-heart fs-2 mt-2"></i>
+          </button>
+          <button class="btn btn-main text-nowrap me-1 pt-1" (click)="addToCart(product.id)">Add2Cart</button>
+        </div>
+      </div>
+    </div>
+    }
+  </div>
+</section>

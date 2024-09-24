@@ -1,0 +1,52 @@
+<section class="bg-main-light shadow p-2 margin-top-130 mb-5 ms-5 me-5 rounded-4 p-3">
+  <div class="d-flex justify-content-between mt-4">
+    <h2 class="text-main">Shop Cart</h2>
+    <button class="btn-main" (click)="clearCartBtn()">Clear Cart</button>
+  </div>
+  <div class="d-flex justify-content-between"><h5>Total Cart Price: {{ cartDetails.totalCartPrice | currency : "GBP" }}</h5>
+  <h5>Total Cart Number:{{countNumber}}</h5></div>
+  
+
+  @for (products of cartDetails.products; track products.product.id){
+  <div
+    class="row justify-content-center align-items-center p-3 g-3 border-main"
+  >
+    <div class="col-md-2">
+      <img
+        [src]="products.product.imageCover"
+        width="100%"
+        [alt]="products.product.title"
+      />
+    </div>
+    <div class="col-md-8 text-main">
+      <h3>{{ products.product.title }}</h3>
+      <h5>Price: {{ products.price | currency : "GBP" }}</h5>
+      <button class="btn" (click)="removeProduct(products.product.id)">
+        <i class="fas fa-trash"></i>
+      </button>
+    </div>
+    <div class="col-md-2">
+      <h5 class="text-main">
+        <span (click)="updateQuantity(products.product.id, products.count - 1)"
+          ><i class="fas fa-circle-minus fa-xl pe-2 cursor-pointer"></i></span
+        >{{ products.count
+        }}<span
+          (click)="updateQuantity(products.product.id, products.count + 1)"
+          ><i class="fas fa-circle-plus fa-xl ps-2 cursor-pointer"></i
+        ></span>
+      </h5>
+    </div>
+  </div>
+  }
+  
+  <div class="d-flex justify-content-end me-3"><button
+    [routerLink]="['/orders', cartDetails._id]"
+    routerLinkActive="router-link-active"
+    class="btn-main mt-2"
+    [disabled]="cartDetails.totalCartPrice===0"
+    
+  >
+    Orders...@if(isLoading){<span><i class="fas fa-spin fa-spinner"></i></span
+      >}
+  </button></div>
+</section>

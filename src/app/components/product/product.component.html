@@ -1,0 +1,47 @@
+<section class="home container-fluid margin-top-130 mb-5 ">
+    <div class="d-flex justify-content-between margin-top"><h2 class="text-main">Popular Product</h2>
+      <input type="search" class="w-25 form-control " placeholder="Search By Name" [(ngModel)]="text"></div>
+    <div class="row g-3 mb-2 mt-2">
+      @for(product of productList | search:text; track product.id) {
+      <div class="col-lg-2 col-md-3">
+        <div class="product h-130">
+          <div class="p-2 " [routerLink]="['/details',product.id]"  >
+            <img [src]="product.imageCover" width="100%" alt="Product 1" />
+            <h3 class="pt-3">{{ product.title.split(" ", 2).join(" ") }}</h3>
+            <h4 class="h6">{{ product.category.name }}</h4>
+  
+            <div class="d-flex justify-content-between">
+              <p>{{ product.price }} EGP</p>
+  
+              <div class="rating-stars">
+                @for(star of generateStars(product.ratingsAverage); track $index){
+                @if(star === 'full'){
+                <i class="fas fa-star rating-color"></i>
+                <!-- } @if(star === 'empty'){
+              <i class="far fa-star "></i> -->
+                } @if(star === 'partial'){
+                <div
+                  [ngStyle]="{
+                    '--my-width': getFractionFill(product.ratingsAverage) + '%'
+                  }"
+                  class="star-container position-relative d-inline-block"
+                >
+                  <div class="partial-30 position-absolute"></div>
+                  <i class="far fa-star full-star overflow-hidden"></i>
+                </div>
+                }}
+                <span class="text-muted">{{ product.ratingsAverage }}</span>
+              </div>
+            </div>
+          </div>
+          <div class="fly d-flex w-100 justify-content-center pb-2">
+            <button (click)="addToWish(product.id)" class="rounded-circle me-1">
+              <i class="fas fa-heart fs-2 mt-2"></i>
+            </button>
+            <button class="btn btn-main text-nowrap me-1 pt-1" (click)="addToCart(product.id)">Add2Cart</button>
+          </div>
+        </div>
+      </div>
+      }
+    </div>
+  </section>

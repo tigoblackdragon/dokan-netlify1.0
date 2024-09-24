@@ -1,0 +1,83 @@
+/* You can add global styles to this file, and also import other style files */
+:root {
+    --main-clr:#F24585;
+    --light-color: #F8D7DA;
+    --shadow: rgba(145, 158, 171, 0.2) 0px 2px 4px -1px, rgba(145, 158, 171, 0.14) 0px 4px 5px -1px, rgba(145, 158, 171, 0.12) 0px 1px 10px -1px;
+    --font-family: Verdana, Geneva, Tahoma, sans-serif;
+    --rating-color: #FFC218;
+
+}
+body {
+    font-family: var(--font-family) !important;
+}
+.nav-link{
+    transition: unset !important;
+}
+.active-link {
+    background-color: var(--main-clr) !important;
+    border-radius: 5px;
+    color: aliceblue !important;
+}
+.rating-color {
+    color: var(--rating-color);
+}
+.cursor-pointer {
+    cursor: pointer;
+}
+a, a:hover {
+    color: black;
+    text-decoration: none;
+}
+.product{
+    border-radius: 5px;
+    border: 1px solid var(--main-clr);
+    transition:ease-out 0.5s;
+    overflow: hidden;
+}
+.product:hover {
+    box-shadow: 0 0 10px var(--main-clr);
+}
+.font-sm{
+    font-size: 12px;
+}
+.text-main{
+    color: var(--main-clr);
+}
+.bg-main{
+    background-color: var(--main-clr) !important;
+}
+.bg-main-light{
+    background-color: var(--light-color)!important;
+}
+.text-main-light {
+    color: var(--light-color)!important;
+}
+.btn-main{
+    background-color: var(--main-clr);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-main:hover{
+    background-color:#fc005d;
+    color: aliceblue;
+}
+.bg-main:disabled:hover{
+    background-color: #ccc;
+}
+.form-control:focus {
+    border-color: var(--main-clr) !important;
+  outline: 0;
+  box-shadow: 0 0 0 .25rem rgba(253, 13, 185, 0.25);
+}
+input::placeholder {
+    color: var(--main-clr);
+    opacity: 0.6;
+  }
+.margin-top-130{
+    margin-top: 100px;
+}

@@ -1,0 +1,9 @@
+.spinner-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centers both the image and the spinner */
+  }
+  
+  .logo-img {
+    margin-bottom: 1rem; /* Space between image and spinner */
+  }

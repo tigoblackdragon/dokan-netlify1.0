@@ -1,0 +1,6 @@
+i {
+    font-size: 30px !important;
+}
+.brd {
+    border: 1px solid var(--main-clr);
+}

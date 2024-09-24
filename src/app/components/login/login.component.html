@@ -1,0 +1,73 @@
+<section class="bg-main-light shadow p-2 m-5 rounded-4 p-3">
+  <h1 class="h2 text-main mb-3 mt-3">Log in:</h1>
+  <form [formGroup]="loginForm" (ngSubmit)="loginSubmit()">
+    <div class="my-2">
+      <label class="pb-1 text-light fs-3" for="email">E-mail</label>
+      <input
+        id="email"
+        class="form-control"
+        formControlName="email"
+        placeholder="E-mail"
+        type="email"
+      />
+      @if
+      (loginForm.get('email')?.errors&&(loginForm.get('email')?.touched||loginForm.get('email')?.dirty))
+      { @if (loginForm.get('email')?.getError('required')) {
+      <p class="alert alert bg-main text-light mt-2 m-0 w-50 mt-1">
+        Email is required
+      </p>
+      } @else if (loginForm.get('email')?.getError('pattern')) {
+      <p class="alert alert bg-main text-light mt-2 m-0 w-50">
+        Enter a valid Email
+      </p>
+      } }
+    </div>
+    <div class="my-2">
+      <label class="pb-1 text-light fs-3" for="password">Password</label>
+      <input
+        id="password"
+        class="form-control"
+        formControlName="password"
+        placeholder="Password"
+        type="password"
+        type="text"
+      />
+      @if
+      (loginForm.get('password')?.errors&&(loginForm.get('password')?.touched||loginForm.get('password')?.dirty))
+      { @if (loginForm.get('password')?.getError('required')) {
+      <p class="alert alert bg-main text-light mt-2 m-0 w-50 mt-1">
+        password is required
+      </p>
+      } @else if (loginForm.get('password')?.getError('pattern')) {
+      <p class="alert alert bg-main text-light mt-2 m-0 w-50">
+        Enter a valid password
+      </p>
+      } }
+    </div>
+    <div class="d-flex justify-content-center align-items-center">
+      <a class="ms-auto mt-3 me-3 fw-bolder link-primary cursor-pointer" routerLink="/forgotPassword" >Forgot The Password</a>
+      <button
+        type="submit"
+        [disabled]="loginForm.invalid || isLoading"
+        class="btn-main mt-4 mb-2 d-block me-lg-4"
+      >
+        Log In @if(isLoading){<span><i class="fas fa-spin fa-spinner"></i></span
+        >}
+      </button>
+    </div>
+
+    <div
+      class="d-flex d-flex flex-row justify-content-center align-items-center"
+    >
+      @if(msgError&&!msgSuccess){
+      <p class="alert bg-main text-light mt-2 m-0 w-50 text-center">
+        {{ msgError }}
+      </p>
+      } @if(msgSuccess){
+      <p class="alert bg-success text-light mt-2 m-0 w-50 text-center">
+        {{ msgSuccess }}: Welcome {{ userName }}
+      </p>
+      }
+    </div>
+  </form>
+</section>

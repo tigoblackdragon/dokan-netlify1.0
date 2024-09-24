@@ -1,0 +1,70 @@
+<section class="bg-main-light shadow p-2 mb-5 ms-5 me-5 rounded-4 p-3 margin-top-130">
+  <h1 class="text-main">Shipping Address</h1>
+  <form action="" [formGroup]="orders" (ngSubmit)="orderSubmit()">
+    <div>
+      <label class="mt-3 text-main" for="details">Details:</label>
+      <textarea
+        formControlName="details"
+        class="text-main mt-1 form-control"
+        id="details"
+        name="details"
+      ></textarea>
+      @if
+      (orders.get('details')?.errors&&(orders.get('details')?.touched||orders.get('details')?.dirty))
+      { @if (orders.get('details')?.getError('required')) {
+      <p class="alert alert bg-main text-light mt-2 m-0 w-50 mt-1">
+        Details is required
+      </p>
+      } }
+    </div>
+    <div>
+      <label class="mt-3 text-main" for="phone">Phone:</label>
+      <input
+        type="tel"
+        formControlName="phone"
+        class="text-main mt-1 form-control"
+        id="phone"
+        name="phone"
+      />
+      @if
+      (orders.get('phone')?.errors&&(orders.get('phone')?.touched||orders.get('phone')?.dirty))
+      { @if (orders.get('phone')?.getError('required')) {
+      <p class="alert alert bg-main text-light mt-2 m-0 w-50 mt-1">
+        phone is required
+      </p>
+      } @else if (orders.get('phone')?.getError('pattern')) {
+      <p class="alert alert bg-main text-light mt-2 m-0 w-50">
+        Enter a Valid Phone
+      </p>
+      } }
+    </div>
+    <div>
+      <label class="mt-3 text-main" for="city">City:</label>
+      <input
+        type="text"
+        formControlName="city"
+        class="text-main mt-1 form-control"
+        id="city"
+        name="city"
+      />
+      @if
+      (orders.get('city')?.errors&&(orders.get('city')?.touched||orders.get('city')?.dirty))
+      { @if (orders.get('city')?.getError('required')) {
+      <p class="alert alert bg-main text-light mt-2 m-0 w-50 mt-1">
+        city is required
+      </p>
+      } @else if (orders.get('city')?.getError('pattern')) {
+      <p class="alert alert bg-main text-light mt-2 m-0 w-50">
+        Enter a valid City
+      </p>
+      } }
+    </div>
+    <div class="d-flex justify-content-end me-3">
+      <button class="btn-main mt-4" [disabled]="orders.invalid || isLoading">
+        Check Out @if(isLoading){<span
+          ><i class="fas fa-spin fa-spinner"></i></span
+        >}
+      </button>
+    </div>
+  </form>
+</section>

@@ -1,0 +1,29 @@
+<section class="home container-fluid margin-top-130 mb-5">
+  <div class="row g-5 m-5">
+    @for(cat of categDetails.data ; track cat.name) {
+    <div class="col-md-4">
+      <div class="product h-130" (click)="scrollToSubCategory(cat._id)">
+        <img [src]="cat.image" width="100%" alt="" />
+        <div class="card-body">
+          <h2 class="card-text text-main pt-2 pb-2 text-center">
+            {{ cat.name }}
+          </h2>
+        </div>
+      </div>
+    </div>
+    }
+  </div>
+</section>
+<section class="home container-fluid margin-top-130 mb-5" id="subCategoriesSection">
+  <div class="row g-5 m-5">
+    @for(subcat of subCategoriesList.data; track subcat.id){
+        
+        <div class="col-md-4 text-center text-main">
+            <div [id]="subcat._id" class="subcat-section card">
+        <h3 class="text-center text-main">{{ subcat.name }}</h3>
+      </div>
+    </div>
+
+  }
+</div>
+</section>

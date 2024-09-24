@@ -1,0 +1,138 @@
+@if(step==1){
+<form
+  [formGroup]="enterEmail"
+  class="bg-main-light shadow p-2 m-5 rounded-4 p-3" (ngSubmit)="forgotPasswordSubmit()"
+>
+  <h2 class="text-main">Find Your Account</h2>
+  <p class="text-main">
+    Please enter your email address to send code for your account
+  </p>
+  <div class="">
+    <label class="pb-1 text-light fs-3" for="email">E-mail</label>
+    <input
+      id="email"
+      class="form-control"
+      formControlName="email"
+      placeholder="E-mail"
+      type="email"
+    />
+    @if
+    (enterEmail.get('email')?.errors&&(enterEmail.get('email')?.touched||enterEmail.get('email')?.dirty))
+    { @if (enterEmail.get('email')?.getError('required')) {
+    <p class="alert alert bg-main text-light mt-2 m-0 w-50 mt-1">
+      Email is required
+    </p>
+    } @else if (enterEmail.get('email')?.getError('email')) {
+    <p class="alert alert bg-main text-light mt-2 m-0 w-50">
+      Enter a valid Email
+    </p>
+    } }
+  </div>
+  <div class="d-flex justify-content-end">
+    <button [disabled]="enterEmail.invalid||isLoading" class="btn-main mt-4 ms-auto">
+      Verify Email @if(isLoading){<span><i class="fas fa-spin fa-spinner"></i></span
+        >}
+    </button>
+  </div>
+  <p class="text-primary">{{message}}</p>
+</form>
+} @if(step==2){
+<form
+  [formGroup]="enterCode"
+  class="bg-main-light shadow p-2 m-5 rounded-4 p-3" (ngSubmit)="codeSubmit()"
+>
+  <h2 class="text-main">Enter security code</h2>
+  <p class="text-main">
+    Please check your emails for a message with your code. Your code is 6
+    numbers long.
+  </p>
+  <h4 class="text-main mt-3">{{resetPassword.get('email')?.value}}</h4>
+  <div class="">
+    <label class="pb-1 text-light fs-3" for="code">Code</label>
+    <input
+      id="code"
+      class="form-control"
+      formControlName="resetCode"
+      placeholder="Code"
+      type="code"
+    />
+    @if
+    (enterCode.get('resetCode')?.errors&&(enterCode.get('resetCode')?.touched||enterCode.get('resetCode')?.dirty))
+    { @if (enterCode.get('resetCode')?.getError('required')) {
+    <p class="alert alert bg-main text-light mt-2 m-0 w-50 mt-1">
+      code is required
+    </p>
+    } @else if (enterCode.get('resetCode')?.getError('pattern')) {
+    <p class="alert alert bg-main text-light mt-2 m-0 w-50">
+      Enter a valid code
+    </p>
+    } }
+  </div>
+  <div class="d-flex justify-content-end">
+    <button [disabled]="enterCode.invalid||isLoading" class="btn-main mt-4 ms-auto">
+      Verify Code @if(isLoading){<span><i class="fas fa-spin fa-spinner"></i></span
+        >}
+    </button>
+  </div>
+  <p class="text-primary">{{errorCodeMsg}}</p>
+</form>
+} @if(step==3){
+<form
+  [formGroup]="resetPassword"
+  class="bg-main-light shadow p-2 m-5 rounded-4 p-3" (ngSubmit)="setNewPassword()"
+>
+  <h2 class="text-main">Enter A New Password</h2>
+  <p class="text-main">
+    Please assign a new password for your email
+  </p>
+  <div class="my-2">
+    <h4 class="text-main mt-3">{{resetPassword.get('email')?.value}}</h4>
+    <label class="pb-1 text-light fs-3" for="password">Password</label>
+    <input
+      id="password"
+      class="form-control"
+      formControlName="newPassword"
+      placeholder="Password"
+      type="password"
+    />
+    @if
+    (resetPassword.get('newPassword')?.errors&&(resetPassword.get('newPassword')?.touched||resetPassword.get('newPassword')?.dirty))
+    { @if (resetPassword.get('newPassword')?.getError('required')) {
+    <p class="alert alert bg-main text-light mt-2 m-0 w-50 mt-1">
+      password is required
+    </p>
+    } @else if (resetPassword.get('newPassword')?.getError('pattern')) {
+    <p class="alert alert bg-main text-light mt-2 m-0 w-50">
+      Enter a valid password
+    </p>
+    } }
+  </div>
+  <div class="my-2">
+    <label class="pb-1 text-light fs-3" for="confPassword">RePassword</label>
+    <input
+      id="confPassword"
+      class="form-control"
+      formControlName="confPassword"
+      placeholder="RePassword"
+      type="password"
+    />
+    @if
+    ((resetPassword.get('confPassword')?.touched||resetPassword.get('confPassword')?.dirty))
+    { @if (resetPassword.get('confPassword')?.getError('required')) {
+    <p class="alert alert bg-main text-light mt-2 m-0 w-50">
+      rePassword is required
+    </p>
+    } @else if (resetPassword.getError('mismatch')) {
+    <p class="alert alert bg-main text-light mt-2 m-0 w-50">
+      Repassword dismatched with password
+    </p>
+    } }
+  </div>
+  <div class="d-flex justify-content-end">
+    <button [disabled]="resetPassword.invalid||isLoading" class="btn-main mt-4 ms-auto">
+      Verify Password @if(isLoading){<span><i class="fas fa-spin fa-spinner"></i></span
+        >}
+    </button>
+  </div>
+</form>
+}

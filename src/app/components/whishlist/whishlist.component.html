@@ -1,0 +1,30 @@
+<section class="bg-main-light shadow p-2  rounded-4 p-3 margin-top-130 ms-5 me-5 mb-5">
+  <div class="d-flex justify-content-between mt-4">
+    <h2 class="text-main">Whish List</h2>
+  </div>
+
+  @for (product of whishDetails.data ; track product.id){
+  <div
+    class="row justify-content-center align-items-center p-3 g-3 border-main"
+  >
+    <div class="col-md-2">
+      <img [src]="product.imageCover" width="100%" [alt]="product.title" />
+    </div>
+    <div class="col-md-8 text-main">
+      <h3>{{ product.title }}</h3>
+      <h5>Price: {{ product.price | currency : "GBP" }}</h5>
+      <button class="btn" (click)="removeProduct(product.id)">
+        <i class="fas fa-trash"></i>
+      </button>
+      <div class="fly d-flex w-100 justify-content-center pb-2">
+        <button
+          (click)="addToCart(product.id)"
+          class="btn btn-main text-nowrap me-1 pt-1 w-75"
+        >
+          Add2Cart
+        </button>
+      </div>
+    </div>
+  </div>
+  }
+</section>

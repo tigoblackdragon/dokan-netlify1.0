@@ -1,0 +1,36 @@
+.home .fly {
+    transform: translateY(200%);
+    transition: transform 0.7s;
+}
+.product:hover .fly{
+    transform: translateY(0);
+}
+.rounded-circle{
+    border: 0;
+    color: var(--light-color);
+}
+.fa-heart {
+    color: var(--light-color);
+}
+.fa-heart:hover {
+    color: var(--main-clr);
+}
+
+.partial-30{
+    background: linear-gradient(to left, white var(--my-width), transparent var(--my-width));
+    width: 1.1em; 
+    height: 1.1em;
+    top: 4px;
+    
+}  
+.dynamic-carsoul h3 {
+    text-shadow: 2px 2px 5px black;
+  }
+  input::placeholder {
+    color: var(--main-clr);
+    opacity: 0.6;
+  }
+  
+  .h-130{
+    min-height: 100%;
+}

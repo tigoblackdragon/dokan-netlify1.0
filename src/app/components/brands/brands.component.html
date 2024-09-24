@@ -1,0 +1,63 @@
+<section class="home container-fluid margin-top-130 mb-5">
+  <h2 class="text-main text-center">All Brands</h2>
+  <div class="row g-3 mb-2 mt-2">
+    @for(product of brandsDetails.data ; track product._id) {
+    <div class="col-lg-2 col-md-3 col-sm-6">
+      <div class="product h-130" (click)="selectBrand(product._id)">
+        <div class="p-2">
+          <img [src]="product.image" width="100%" [alt]="product.slug" />
+          <h5 class="pt-3 text-main text-center">{{ product.name }}</h5>
+        </div>
+      </div>
+    </div>
+    }
+  </div>
+</section>
+<!-- Modal -->
+<div
+  class="modal"
+  id="staticBackdrop"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+  tabindex="-1"
+  aria-labelledby="staticBackdropLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content bg-main-light">
+      <div class="modal-header border-main">
+        <h1 class="modal-title fs-1 text-main mb-1" id="staticBackdropLabel">Brand</h1>
+        <button
+          (click)="closeModal()"
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body border-main">
+        <div class="row d-flex justify-content-between align-items-center mb-2">
+          <div class="col-6">
+            <h2 class="text-main">{{ SubBrand.data.name }}</h2>
+            <h5>{{ SubBrand.data.slug }}</h5>
+          </div>
+          <div class="col-6"> <img
+            [src]="SubBrand.data.image"
+            alt="{{ SubBrand.data.name }}"
+            class="img-fluid" width="100%"
+          /></div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button
+          (click)="closeModal()"
+          type="button"
+          class="btn btn-main"
+          data-bs-dismiss="modal"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
