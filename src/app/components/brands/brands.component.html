@@ -16,12 +16,8 @@
 <!-- Modal -->
 <div
   class="modal"
-  id="staticBackdrop"
-  data-bs-backdrop="static"
-  data-bs-keyboard="false"
   tabindex="-1"
-  aria-labelledby="staticBackdropLabel"
-  aria-hidden="true"
+  id="mymodal"
 >
   <div class="modal-dialog">
     <div class="modal-content bg-main-light">
@@ -38,12 +34,12 @@
       <div class="modal-body border-main">
         <div class="row d-flex justify-content-between align-items-center mb-2">
           <div class="col-6">
-            <h2 class="text-main">{{ SubBrand.data.name }}</h2>
-            <h5>{{ SubBrand.data.slug }}</h5>
+            <h2 class="text-main">{{subBrand.name}}</h2>
+            <h5>{{ subBrand.slug }}</h5>
           </div>
           <div class="col-6"> <img
-            [src]="SubBrand.data.image"
-            alt="{{ SubBrand.data.name }}"
+            [src]="subBrand.image"
+            alt="{{subBrand.slug}}"
             class="img-fluid" width="100%"
           /></div>
         </div>

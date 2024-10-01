@@ -15,7 +15,7 @@ getAllBrands():Observable<any> {
   return this._HttpClient.get(`${environment.baseUrl}api/v1/brands`)
 }
 
-getSpecBrand(id:string):Observable<any>{
+getSpecBrand(id:string|null){
   return this._HttpClient.get(`${environment.baseUrl}api/v1/brands/${id}`)
 }
 }

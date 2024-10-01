@@ -12,13 +12,20 @@ import { SearchPipe } from '../../core/pipes/search.pipe';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { iwdata } from '../../core/interfaces/iwdata';
 
 @Component({
   selector: 'app-product',
   standalone: true,
-  imports: [CommonModule, RouterLink, FormsModule, SearchPipe, NgxSpinnerModule],
+  imports: [
+    CommonModule,
+    RouterLink,
+    FormsModule,
+    SearchPipe,
+    NgxSpinnerModule,
+  ],
   templateUrl: './product.component.html',
-  styleUrl: './product.component.css'
+  styleUrl: './product.component.css',
 })
 export class ProductComponent implements OnInit, OnDestroy {
   text: string = '';
@@ -33,28 +40,29 @@ export class ProductComponent implements OnInit, OnDestroy {
   emptyStars: number[] = [];
   productList: Iproduct[] = [];
   categoriesList: Icategory[] = [];
-
+  whishSrch: iwdata[] = [];
 
   private readonly _ProductsService = inject(ProductsService);
   private readonly _CategoriesService = inject(CategoriesService);
-  private readonly _CartService=inject (CartService);
-  private readonly _ToastrService=inject (ToastrService);
-  private readonly _NgxSpinnerService=inject (NgxSpinnerService);
-  private readonly _WhishlistService=inject (WhishlistService);
-
-
-
-
+  private readonly _CartService = inject(CartService);
+  private readonly _ToastrService = inject(ToastrService);
+  private readonly _NgxSpinnerService = inject(NgxSpinnerService);
+  private readonly _WhishlistService = inject(WhishlistService);
 
   ngOnInit(): void {
-   
     this.getAllProductSub = this._ProductsService.getAllProducts().subscribe({
       next: (res) => {
         this.productList = res.data;
+        this._WhishlistService.getWhishItems().subscribe({
+          next: (res) => {
+            console.log(res.data);
+            this.whishSrch = res.data.map((product: any) => product._id);
+            console.log(this.whishSrch);
+          },
+        });
       },
       error: (err) => {},
     });
-
 
     this.getAllCategoriesSub = this._CategoriesService
       .getAllCategories()
@@ -65,7 +73,6 @@ export class ProductComponent implements OnInit, OnDestroy {
         },
         error: (err) => {},
       });
-
   }
 
   ngOnDestroy(): void {
@@ -103,28 +110,50 @@ export class ProductComponent implements OnInit, OnDestroy {
     // Convert the decimal part to a percentage (e.g., 0.3 -> 30%)
     return (this.ratingPartial = 100 - (rating % 1) * 100);
   }
-  addToCart(id:string): void {
-    this._CartService.addToCart(id).subscribe ({
+  addToCart(id: string): void {
+    this._CartService.addToCart(id).subscribe({
       next: (res) => {
         console.log('res');
-        this._ToastrService.success(res.message," Dokan")
-        this._CartService.cartNumber.next(res.numOfCartItems); 
+        this._ToastrService.success(res.message, ' Dokan');
+        this._CartService.cartNumber.next(res.numOfCartItems);
       },
       error: (err) => {
-        console.error( err);
-      }
-    })
+        console.error(err);
+      },
+    });
   }
 
-  addToWish(id:string): void {
-    this._WhishlistService.addToWhish(id).subscribe ({
+  addToWish(ids: string): void {
+    this._WhishlistService.addToWhish(ids).subscribe({
       next: (res) => {
-        console.log('res');
-        this._ToastrService.success(res.message," Dokan")
+        this._ToastrService.success(res.message, ' Dokan');
+        this._WhishlistService.getWhishItems().subscribe({
+          next: (res) => {
+            console.log(res.data);
+            this.whishSrch = res.data.map((product: any) => product._id);
+            console.log(this.whishSrch);
+          },
+        });
       },
       error: (err) => {
-        console.error( err);
-      }
-    })
+        console.error(err);
+      },
+    });
+  }
+  deleteWish(ids: string): void {
+    this._WhishlistService.deleteSpecificProduct(ids).subscribe({
+      next: (res) => {
+        this._ToastrService.success(res.message, ' Dokan');
+        this._WhishlistService.getWhishItems().subscribe({
+          next: (res) => {
+            console.log(res.data);
+            this.whishSrch = res.data.map((product: any) => product._id);
+          },
+        });
+      },
+      error: (err) => {
+        console.error(err);
+      },
+    });
   }
 }

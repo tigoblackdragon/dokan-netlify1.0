@@ -2,10 +2,10 @@
 export interface Iwhish {
   status: string;
   count: number;
-  data: Data[];
+  data: iData[];
 }
 
-interface Data {
+interface iData {
   sold: number;
   images: string[];
   subcategory: Subcategory[];

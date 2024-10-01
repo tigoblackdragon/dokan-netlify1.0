@@ -47,7 +47,6 @@ removeProduct(id:string){
         } })
     },
     error: (err)=> {},
-
 })
 }
 

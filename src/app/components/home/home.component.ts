@@ -1,7 +1,7 @@
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, inject, OnDestroy, OnInit, Renderer2, viewChild } from '@angular/core';
 import { ProductsService } from '../../core/services/products.service';
 import { Iproduct } from '../../core/interfaces/iproduct';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgClass } from '@angular/common';
 import { Subscription } from 'rxjs';
 import { CategoriesService } from '../../core/services/categories.service';
 import { Icategory } from '../../core/interfaces/icategory';
@@ -15,11 +15,13 @@ import { CartService } from '../../core/services/cart.service';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 import { WhishlistService } from '../../core/services/whishlist.service';
+import { Iwhish } from '../../core/interfaces/iwhish';
+import { iwdata } from '../../core/interfaces/iwdata';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, CarouselModule, RouterLink, FormsModule, SearchPipe, NgxSpinnerModule],
+  imports: [CommonModule, CarouselModule, RouterLink, FormsModule, SearchPipe, NgxSpinnerModule,NgClass],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
 })
@@ -36,7 +38,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   emptyStars: number[] = [];
   productList: Iproduct[] = [];
   categoriesList: Icategory[] = [];
- 
+  whishDetails: Iwhish [] = [];
+  whishSrch:iwdata[]=[];
 
 
   private readonly _ProductsService = inject(ProductsService);
@@ -45,7 +48,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   private readonly _ToastrService=inject (ToastrService);
   private readonly _NgxSpinnerService=inject (NgxSpinnerService);
   private readonly _WhishlistService=inject (WhishlistService);
-
+  
+  constructor(private elRef: ElementRef, private renderer: Renderer2) { }
 
   staticSlider: OwlOptions = {
     loop: true,
@@ -100,14 +104,29 @@ export class HomeComponent implements OnInit, OnDestroy {
     nav: true,
   };
 
+
+  // isInWishList(productId: string): boolean {
+  //   return this.whishDetails.data.some(whish => whish.id === productId);
+  // }
+
+
   ngOnInit(): void {
-   
-    this.getAllProductSub = this._ProductsService.getAllProducts().subscribe({
+    this._WhishlistService.getWhishItems().subscribe({
       next: (res) => {
-        this.productList = res.data;
-      },
-      error: (err) => {},
-    });
+        console.log(res.data);
+        this.whishDetails=res;
+        this.whishSrch=res.data.map((product:any)=>product._id);
+        this.getAllProductSub = this._ProductsService.getAllProducts().subscribe({
+          next: (res) => {
+            this.productList = res.data;
+            console.log(res.data);
+          },
+          error: (err) => {},
+        });
+      }
+   
+    })
+   
 
 
     this.getAllCategoriesSub = this._CategoriesService
@@ -115,16 +134,61 @@ export class HomeComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (res) => {
           this.categoriesList = res.data;
-          console.log(res.data);
         },
         error: (err) => {},
       });
 
+
+     
+       
+  
+
+
+
   }
 
-  ngOnDestroy(): void {
-    this.getAllProductSub?.unsubscribe();
+  addToWish(ids:string): void {
+    this._WhishlistService.addToWhish(ids).subscribe ({
+      next: (res) => {
+        this._ToastrService.success(res.message," Dokan")
+        this._WhishlistService.getWhishItems().subscribe({
+          next: (res) => {
+            console.log(res.data);
+            this.whishDetails=res;
+            this.whishSrch=res.data.map((product:any)=>product._id);
+            console.log(this.whishSrch);
+          }
+        })
+      },
+      error: (err) => {
+        console.error( err);
+      }
+    })
   }
+  deleteWish(ids:string): void {
+    this._WhishlistService.deleteSpecificProduct(ids).subscribe ({
+      next: (res) => {
+        this._ToastrService.success(res.message," Dokan")
+        this._WhishlistService.getWhishItems().subscribe({
+          next: (res) => {
+            console.log(res.data);
+            this.whishDetails=res;
+            this.whishSrch=res.data.map((product:any)=>product._id);;
+          }
+        })
+      },
+      error: (err) => {
+        console.error( err);
+      }
+    })
+  }
+
+
+
+
+
+
+
 
   // Generates the star array with full, partial, and empty stars
   generateStars(rating: number): string[] {
@@ -137,7 +201,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     // Add full stars
     for (let i = 0; i < fullStars; i++) {
       starsArray.push('full');
-      console.log(starsArray);
     }
 
     // Add partial star if there is a fraction
@@ -170,15 +233,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     })
   }
 
-  addToWish(id:string): void {
-    this._WhishlistService.addToWhish(id).subscribe ({
-      next: (res) => {
-        console.log('res');
-        this._ToastrService.success(res.message," Dokan")
-      },
-      error: (err) => {
-        console.error( err);
-      }
-    })
+  ngOnDestroy(): void {
+    this.getAllProductSub?.unsubscribe();
   }
 }
